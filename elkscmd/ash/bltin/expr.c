@@ -295,26 +295,26 @@ permission:
 		  i <<= 3;
 	    goto filebit;	/* true if (stat.st_mode & i) != 0 */
       case ISFILE:
-	    i = S_IFREG;
+	    i = __S_IFREG;
 	    goto filetype;
       case ISDIR:
-	    i = S_IFDIR;
+	    i = __S_IFDIR;
 		goto filetype;
       case ISCHAR:
-	    i = S_IFCHR;
+	    i = __S_IFCHR;
 		goto filetype;
       case ISBLOCK:
-	    i = S_IFBLK;
+	    i = __S_IFBLK;
 		goto filetype;
       case ISFIFO:
-#ifdef S_IFIFO
-	    i = S_IFIFO;
+#ifdef __S_IFIFO
+	    i = __S_IFIFO;
 		goto filetype;
 #else
 	    goto false;
 #endif
 filetype:
-	    if ((fs->stat.st_mode & S_IFMT) == i && fs->rcode >= 0) {
+	    if ((fs->stat.st_mode & __S_IFMT) == i && fs->rcode >= 0) {
 true:
 		  sp->u.num = 1;
 	    } else {
@@ -324,13 +324,13 @@ false:
 	    sp->type = BOOLEAN;
 	    break;
       case ISSETUID:
-	    i = S_ISUID;
+	    i = __S_ISUID;
 	    goto filebit;
       case ISSETGID:
-	    i = S_ISGID;
+	    i = __S_ISGID;
 	    goto filebit;
       case ISSTICKY:
-	    i = S_ISVTX;
+	    i = __S_ISVTX;
 filebit:
 	    if (fs->stat.st_mode & i && fs->rcode >= 0)
 		  goto true;

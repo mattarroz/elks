@@ -128,6 +128,7 @@
 #include "shell.h"
 
 #if LINENOISE           /* entire file if LINENOISE=0 in shell.h*/
+#define __USE_MISC
 #include <termios.h>
 #include <unistd.h>
 #include <stdlib.h>

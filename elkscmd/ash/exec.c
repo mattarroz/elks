@@ -476,7 +476,7 @@ loop:
 			goto loop;
 		}
 		e = EACCES;	/* if we fail, this will be the error */
-		if ((statb.st_mode & S_IFMT) != S_IFREG)
+		if (S_ISREG(statb.st_mode))
 			goto loop;
 		if (pathopt) {		/* this is a %func directory */
 			stalloc(strlen(fullname) + 1);

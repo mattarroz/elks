@@ -51,7 +51,7 @@ static char sccsid[] = "@(#)parser.c	5.3 (Berkeley) 4/12/91";
 #include "error.h"
 #include "memalloc.h"
 #include "mystring.h"
-
+#include "eval.h"
 
 /*
  * Shell command parser.

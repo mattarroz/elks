@@ -4,7 +4,7 @@
 # Modified for ELKS and bcc
 
 BASEDIR = ..
-
+TOPDIR=.
 include $(BASEDIR)/Make.defs
 
 LOCALFLAGS = -DSHELL -I. -D_MINIX -D_POSIX_SOURCE -Dlint
@@ -33,7 +33,7 @@ OBJS=	builtins.o cd.o dirent.o error.o eval.o exec.o expand.o input.o \
 OBJS += bltin/echo.o
 OBJS += bltin/expr.o bltin/regexp.o bltin/operators.o
 
-LDFLAGS += -maout-heap=12288 -maout-stack=2304
+LDFLAGS += -gc-sections
 
 #
 # Set READLINE in shell.h and add -ledit to LIBS if you want to use the
@@ -49,7 +49,7 @@ CLEANFILES= $(OBJS) \
 all:	ash
 
 ash: $(OBJS)
-	$(LD) $(LDFLAGS) -o ash $(OBJS) $(LDLIBS)
+	$(CC) $(CFLBASE) -o ash $(OBJS)
 
 install: ash
 	$(INSTALL) ash $(DESTDIR)/bin/sh

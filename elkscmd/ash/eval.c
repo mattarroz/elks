@@ -82,8 +82,8 @@ STATIC int skipcount;		/* number of levels to skip */
 MKINIT int loopnest;		/* current loop nesting level */
 int funcnest;			/* depth of function calls */
 
-
-char *commandname;
+extern struct localvar *localvars;
+extern char *commandname;
 struct strlist *cmdenviron;
 int exitstatus;			/* exit status of last command */
 

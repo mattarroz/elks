@@ -244,7 +244,7 @@ STATIC const struct errname errormsg[] = {
  */
 
 char *
-errmsg(e, action) {
+errmsg(int e, int action) {
 	register const struct errname *ep;
 	static char buf[12];
 

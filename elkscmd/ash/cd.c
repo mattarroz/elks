@@ -95,13 +95,12 @@ cdcmd(argc, argv)  char **argv; {
 	}
 	if (*dest == '/' || (path = bltinlookup("CDPATH", 1)) == NULL)
 		path = nullstr;
-	while ((p = padvance(&path, dest)) != NULL) {
-		if (stat(p, &statb) >= 0
-		 && (statb.st_mode & S_IFMT) == S_IFDIR
-		 && docd(p, strcmp(p, dest), tohome) >= 0)
-			return 0;
-	}
-	error("can't cd to %s", dest);
+        while ((p = padvance(&path, dest)) != NULL) {
+          if (stat(p, &statb) >= 0 && S_ISDIR(statb.st_mode) &&
+              docd(p, strcmp(p, dest), tohome) >= 0)
+            return 0;
+        }
+        error("can't cd to %s", dest);
 	return 1;
 }
 

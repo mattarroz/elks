@@ -25,11 +25,13 @@
 #
 ##############################################################################
 
+TOPDIR=$(PWD)
+
 ifndef TOPDIR
 $(error TOPDIR is not defined)
 endif
 
-include $(TOPDIR)/Make.defs
+#include $(TOPDIR)/Make.defs
 
 ##############################################################################
 #
@@ -37,10 +39,10 @@ include $(TOPDIR)/Make.defs
 #
 # Specify directories.
 
-ELKS_DIR=$(TOPDIR)/elks
-ELKSCMD_DIR=$(TOPDIR)/elkscmd
+#ELKS_DIR=$(TOPDIR)/elks
+ELKSCMD_DIR=$(TOPDIR)
 
-INCLUDES=-I$(TOPDIR)/include -I$(TOPDIR)/libc/include -I$(ELKS_DIR)/include
+#INCLUDES=-I$(TOPDIR)/include -I$(TOPDIR)/libc/include -I$(ELKS_DIR)/include
 
 # temporarily turn off typical non-K&R warnings for now
 WARNINGS = -Wno-implicit-int
@@ -50,14 +52,6 @@ WARNINGS += -Wno-parentheses
 ##############################################################################
 #
 # Determine the ELKS kernel version.
-
-E_V=$(shell if [ -f $(ELKS_DIR)/Makefile-rules ]; then \
-		grep -v '^\#' $(ELKS_DIR)/Makefile-rules \
-		    | fgrep = | head -4 | tr '\#' = | cut -d = -f 2 ;\
-	    else echo Version not known ; fi)
-
-ELKS_VSN=$(shell printf '%s.%s.%s%s' $(E_V))
-
 ##############################################################################
 #
 # Compiler variables for programs to be compiled as host applications.
@@ -68,22 +62,22 @@ HOSTCFLAGS = -O3
 #
 # Compiler variables for programs cross-compiled for ELKS.
 
-CC=ia16-elf-gcc
-CFLBASE=-fno-inline -melks-libc -mcmodel=small -mno-segment-relocation-stuff -mtune=i8086 -Wall -Os
-#CFLBASE += -mregparmcall
+CC=m68k-buildroot-uclinux-uclibc-gcc
+CFLBASE=-Os -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64   -g0   -Wl,-elf2flt=-r
+#CFLBASE += -mregparmcallq
 #CFLBASE += -finstrument-functions-simple
-LD=ia16-elf-gcc
-LDFLAGS=$(CFLBASE)
+LD=m68k-buildroot-uclinux-uclibc-ld
+LDFLAGS=
 CHECK=gcc -c -o .null.o -Wall -pedantic
-AS=ia16-elf-as
-ASFLAGS=-mtune=i8086 --32-segelf
+AS=m68k-buildroot-uclinux-uclibc-as
+ASFLAGS=
 
 CFLAGS=$(CFLBASE) $(WARNINGS) $(LOCALFLAGS) $(INCLUDES) -D__ELKS__ -DELKS_VERSION=\"$(ELKS_VSN)\"
 
 ###############################################################################
 #
 # Special libraries for some programs
-TINYPRINTF=$(ELKSCMD_DIR)/lib/tiny_vfprintf.o
+#TINYPRINTF=$(ELKSCMD_DIR)/lib/tiny_vfprintf.o
 
 ###############################################################################
 #

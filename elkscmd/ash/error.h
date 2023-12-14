@@ -79,7 +79,7 @@ extern int exception;
 
 extern volatile int suppressint;
 extern volatile int intpending;
-extern char *commandname;	/* name of command--printed on error */
+//char *commandname;	/* name of command--printed on error */
 
 #define INTOFF suppressint++
 #define INTON if (--suppressint == 0 && intpending) onint(); else
